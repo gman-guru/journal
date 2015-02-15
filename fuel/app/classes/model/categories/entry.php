@@ -22,5 +22,10 @@ class Model_Categories_Entry extends \Orm\Model
 	);
 
 	protected static $_table_name = 'categories_entries';
+        
+        protected static $_belongs_to = array(
+            'category',
+            'entry',
+        );
 
 }
