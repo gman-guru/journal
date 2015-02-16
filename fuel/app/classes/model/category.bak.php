@@ -1,4 +1,5 @@
 <?php
+
 class Model_Category extends \Orm\Model
 {
 	protected static $_properties = array(
@@ -15,17 +16,17 @@ class Model_Category extends \Orm\Model
 			'mysql_timestamp' => false,
 		),
 		'Orm\Observer_UpdatedAt' => array(
-			'events' => array('before_save'),
+			'events' => array('before_update'),
 			'mysql_timestamp' => false,
 		),
-             'Orm\Observer_Slug' => array(
+                'Orm\Observer_Slug' => array(
                         'events' => array( 'before_insert', 'before_update'),
                         'source' => 'name',
                         'property' => 'slug',
-                )
+                ),
 	);
-        
-        protected static $_table_name = 'categories';
+
+	protected static $_table_name = 'categories';
         
         protected static $_belongs_to = array(
             'entry' => array(
@@ -45,14 +46,5 @@ class Model_Category extends \Orm\Model
                 'cascade_delete' => false,
             )
         );
-
-	public static function validate($factory)
-	{
-		$val = Validation::forge($factory);
-		$val->add_field('name', 'Name', 'required|max_length[255]');
-//		$val->add_field('slug', 'Slug', 'required|max_length[255]');
-
-		return $val;
-	}
 
 }

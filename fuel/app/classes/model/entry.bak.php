@@ -1,4 +1,5 @@
 <?php
+
 class Model_Entry extends \Orm\Model
 {
 	protected static $_properties = array(
@@ -8,9 +9,9 @@ class Model_Entry extends \Orm\Model
 		'excerpt',
 		'content',
 		'published_at',
-		'user_id',
 		'created_at',
 		'updated_at',
+                'user_id'
 	);
 
 	protected static $_observers = array(
@@ -19,17 +20,19 @@ class Model_Entry extends \Orm\Model
 			'mysql_timestamp' => false,
 		),
 		'Orm\Observer_UpdatedAt' => array(
-			'events' => array('before_save'),
+			'events' => array('before_update'),
 			'mysql_timestamp' => false,
 		),
-                 'Orm\Observer_Slug' => array(
+                
+                'Orm\Observer_Slug' => array(
                         'events' => array( 'before_insert', 'before_update'),
                         'source' => 'name',
                         'property' => 'slug',
                 ),
+
 	);
-        
-//        protected static $_table_name = 'entries';
+
+	protected static $_table_name = 'entries';
         
         protected static $_belongs_to = array(
         'user',
@@ -50,19 +53,5 @@ class Model_Entry extends \Orm\Model
                 'cascade_delete' => false,
             )
         );
-
-
-	public static function validate($factory)
-	{
-		$val = Validation::forge($factory);
-		$val->add_field('name', 'Name', 'required|max_length[255]');
-//		$val->add_field('slug', 'Slug', 'required|max_length[255]');
-		$val->add_field('excerpt', 'Excerpt', 'required');
-		$val->add_field('content', 'Content', 'required');
-		$val->add_field('published_at', 'Published At', 'required|valid_string[numeric]');
-		$val->add_field('user_id', 'User Id', 'required|valid_string[numeric]');
-
-		return $val;
-	}
 
 }
